@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-tdPickerView"
+        version="0.0.1">
+    
+    <name>TDPickerView</name>
+    
+    <description>This plugin for Cordova</description>
+    
+    <keywords>Cordova</keywords>
+    
+    <repo>https://github.com/terrydr/com.terrydr.pickerView.git</repo>
+    <issue>https://github.com/terrydr/com.terrydr.pickerView.git</issue>
+    
+    <license>MIT</license>
+    
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+    
+    <js-module src="www/TDPickerView.js" name="TDPickerView">
+        <clobbers target="tdPickerView" />
+    </js-module>
+    
+    <platform name="ios">
+        <config-file  target="config.xml" parent="/*">
+            <feature  name="TDPickerView">
+                <param  name="ios-package"  value="TDPickerView"/>
+            </feature>
+        </config-file>
+        
+        <source-file src="src/ios/Class/TDPickerView.m" />
+        <header-file src="src/ios/Class/TDPickerView.h" />
+        <source-file src="src/ios/Class/MJPopupView/MJPopupBackgroundView.m" />
+        <header-file src="src/ios/Class/MJPopupView/MJPopupBackgroundView.h" />
+        <source-file src="src/ios/Class/MJPopupView/UIViewController+MJPopupViewController.m" />
+        <header-file src="src/ios/Class/MJPopupView/UIViewController+MJPopupViewController.h" />
+    </platform>
+</plugin>
