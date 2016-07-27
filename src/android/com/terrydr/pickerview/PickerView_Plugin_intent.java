@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.terrydr.pickerview.wheelview.WheelView;
 import com.terrydr.pickerview.wheelview.adapter.ArrayWheelAdapter;
-
+import com.terrydr.resource.R;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
