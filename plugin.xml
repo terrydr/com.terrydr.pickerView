@@ -38,4 +38,16 @@
         <source-file src="src/ios/Class/MJPopupView/UIViewController+MJPopupViewController.m" />
         <header-file src="src/ios/Class/MJPopupView/UIViewController+MJPopupViewController.h" />
     </platform>
+	
+	<platform name="android">
+        <config-file  target="res/xml/config.xml" parent="/*">
+            <feature  name="tdPickerView">
+                <!--TDEye:继承CDVPlugin的类名 -->
+                <param  name="android-package"  value="com.terrydr.pickerview.PickerView_Plugin_intent"/>
+            </feature>
+        </config-file>
+
+		<source-file src="src/android/com/terrydr/pickerview"
+                     target-dir="src/com/terrydr"/>		
+    </platform>
 </plugin>
