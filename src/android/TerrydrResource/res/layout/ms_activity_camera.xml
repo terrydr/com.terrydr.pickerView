@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:fitsSystemWindows="true"
+    tools:context="com.terrydr.mirrorscope.CameraActivity" >
+
+    <!-- 显示预览图形 -->
+
+    <com.terrydr.mirrorscopes.CameraContainer
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/camera_bottom_bar"
+        android:layout_below="@+id/camera_header_bar" />
+
+    <include
+        android:id="@+id/camera_header_bar"
+        layout="@layout/ms_camera_header_bar" />
+
+    <include
+        android:id="@+id/camera_bottom_bar"
+        layout="@layout/ms_camera_bottom_bar" />
+
+    <TextView
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_22"
+        android:id="@+id/ms_image_count_tv"
+        android:layout_width="38dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:layout_below="@+id/camera_header_bar"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp" />
+
+</RelativeLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header_bar_photo_browse"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/top_menu_bar_height"
+    android:background="@color/common_title_bg"
+    android:layout_centerInParent="true" >
+
+    <ImageView
+        android:id="@+id/header_bar_photo_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/title_view_left_back_padding_left"
+        android:scaleType="fitCenter"
+        android:src="@drawable/top_left_but" />
+
+    <TextView
+        android:id="@+id/header_bar_photo_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/header_bar_photo_back_iv"
+        android:text="@string/image_browse_tv"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size" />
+
+    <TextView
+        android:id="@+id/header_bar_photo_count"
+        android:text="@string/ms_image_browse_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size" />
+
+    <TextView
+        android:enabled="false"
+        android:id="@+id/header_bar_photo_commit_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dip"
+        android:text="@string/ms_commit_bt"
+        android:textColor="@color/ms_font_color_gray"
+        android:textSize="@dimen/text_size" />
+
+</RelativeLayout>

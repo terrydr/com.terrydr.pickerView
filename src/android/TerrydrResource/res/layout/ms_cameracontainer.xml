@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:camera="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.terrydr.mirrorscopes.CameraView
+        android:id="@+id/cameraView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.terrydr.mirrorscopes.FocusImageView
+        android:id="@+id/focusImageView"
+        android:layout_width="75dip"
+        android:layout_height="75dip"
+        camera:focus_fail_id="@drawable/focus_focus_failed"
+        camera:focus_focusing_id="@drawable/focus_focusing"
+        camera:focus_success_id="@drawable/focus_focused" />
+
+    
+    <RelativeLayout
+        android:id="@+id/zoom_rl"
+        android:layout_width="fill_parent"
+        android:layout_height="30dip"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dip"
+        android:layout_marginLeft="50dip"
+        android:layout_marginRight="50dip"
+        android:visibility="gone"
+        android:background="@color/all_transparent_background" >
+
+        <ImageView
+            android:id="@+id/left_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dip"
+            android:src="@drawable/zoom_lessen" />
+
+        <SeekBar
+            android:id="@+id/setting_zoom_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/left_iv"
+            android:layout_toLeftOf="@+id/right_iv"
+            android:maxHeight="3dip"
+            android:minHeight="3dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:progressDrawable="@drawable/zoom_setting_progressbar"
+            android:thumb="@drawable/zoom_thumb" />
+
+        <ImageView
+            android:id="@+id/right_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dip"
+            android:src="@drawable/zoom_enlargement" />
+    </RelativeLayout>
+    
+
+</RelativeLayout>

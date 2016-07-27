@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- 泰瑞眼科 -->
+    <string name="app_name">EyeScope</string>
+    <string name="title_activity_camera">EyeScope</string>
+    <string name="eye_right">右眼</string>
+    <string name="eye_left">左眼</string>
+    <string name="header_bar_enter_selection_tv">选择</string>
+    <string name="cance_bt_tv">返回</string>
+    <string name="camera_tv">拍照</string>
+    <string name="image_browse_tv">返回</string>
+    <string name="selected_tv">已选 0 张</string>
+    <string name="commit_bt">完成</string>
+    <string name="prompt">是否删除照片</string>
+    <string name="exit_app">下次不再提示</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="dismiss">隐藏</string>
+    <!-- 存储文件文件夹 -->
+    <string name="Files">Files</string>
+    <!-- 图像文件夹 -->
+    <string name="Image">Image</string>
+    <!-- 缩略图文件夹 -->
+    <string name="Thumbnail">Thumbnail</string>
+    
+    <!-- 泰瑞镜下 -->
+    <string name="ms_app_name">MirrorScope</string> 
+    <string name="ms_title_activity_camera">MirrorScope</string>
+    <string name="ms_eye_right">右眼</string>
+    <string name="ms_eye_left">左眼</string>
+    <string name="ms_header_bar_enter_selection_tv">选择</string>
+    <string name="ms_cance_bt_tv">返回</string>
+    <string name="ms_complete_bt">完成</string>
+    <string name="ms_camera_tv">拍照</string>
+    <string name="ms_image_browse_tv">图片</string>
+    <string name="ms_selected_tv">已选 0 张</string>
+    <string name="ms_commit_bt">完成</string>
+    <string name="ms_prompt">是否删除照片</string>
+    <string name="ms_exit_app">下次不再提示</string>
+    <string name="ms_confirm">确定</string>
+    <string name="ms_cancel">取消</string>
+    <string name="ms_dismiss">隐藏</string>
+    <!-- 存储文件文件夹 -->
+    <string name="ms_Files">Files</string>
+    <!-- 图像文件夹 -->
+    <string name="ms_Image">Image</string>
+    <!-- 缩略图文件夹 -->
+    <string name="ms_Thumbnail">Thumbnail</string>
+
+</resources>

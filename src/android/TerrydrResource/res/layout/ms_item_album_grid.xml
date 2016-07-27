@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="73dip"
+    android:descendantFocusability="blocksDescendants" 
+    android:background="@android:color/transparent" >
+
+    <com.terrydr.mirrorscopes.FilterImageView
+        android:id="@+id/imgThumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="73dp"
+        android:background="@null"
+        android:scaleType="center" />
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="5dip"
+        android:layout_marginRight="5dip"
+        android:background="@drawable/item_album_grid_checkbox"
+        android:button="@null"
+        android:checked="false"
+        android:focusable="false"
+        android:visibility="gone" />
+
+</RelativeLayout>
