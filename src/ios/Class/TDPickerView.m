@@ -9,13 +9,16 @@
 #import "TDPickerView.h"
 #import "UIViewController+MJPopupViewController.h"
 
-@interface TDPickerView ()<UIPickerViewDataSource,UIPickerViewDelegate>
+@interface TDPickerView ()<UIPickerViewDataSource,UIPickerViewDelegate>{
+    NSString *_callbackId;
+}
 
 @end
 
 @implementation TDPickerView
 
 - (void)tdShowPickerView:(CDVInvokedUrlCommand*)command{
+    _callbackId = command.callbackId;
     UIControl *control = [self popView];
     [control addSubview:[self tdPickerView]];
     [self.viewController presentPopupViewController:control animationType:MJPopupViewAnimationSlideBottomBottom];
@@ -34,7 +37,8 @@
 
 - (UIPickerView *)tdPickerView{
     CGRect bounds = self.viewController.view.bounds;
-    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, bounds.size.height - 216, bounds.size.width, 216)];
+    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, bounds.size.height - 100, bounds.size.width, 100)];
+    pickerView.backgroundColor = [UIColor whiteColor];
     pickerView.delegate = self;
     return pickerView;
 }
@@ -51,6 +55,11 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     return @"男";
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"男"];
+    [self.commandDelegate sendPluginResult:result callbackId:_callbackId];
 }
 
 @end
