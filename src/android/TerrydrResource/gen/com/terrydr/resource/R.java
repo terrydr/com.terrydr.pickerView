@@ -66,9 +66,11 @@ containing a value of this type.
         /** 灰色 
          */
         public static int ms_font_color_white=0x7f050015;
+        public static int pickerview_line_color=0x7f050018;
         /**  PickerView color 
          */
         public static int pickerview_province_line_border=0x7f050016;
+        public static int pickerview_text_color=0x7f050017;
         /** dialog中按钮字体颜色 
          */
         public static int primary_title_text_color=0x7f05000e;
@@ -183,11 +185,9 @@ containing a value of this type.
         public static int cance_back_iv=0x7f090013;
         public static int cance_bt=0x7f090015;
         public static int cancel_btn=0x7f090034;
-        public static int cancleButton=0x7f09003d;
         public static int checkbox=0x7f09003a;
         public static int commit_bt=0x7f09000b;
         public static int complete_bt=0x7f09002a;
-        public static int confirmButton=0x7f09003e;
         public static int confirm_btn=0x7f090038;
         public static int container=0x7f090000;
         public static int eye_left_select_count_tv=0x7f090021;
@@ -221,6 +221,8 @@ containing a value of this type.
         public static int neutral_btn=0x7f090036;
         public static int photos_iv=0x7f090026;
         public static int pickerview_bottomLayou=0x7f09003f;
+        public static int pickerview_cancle=0x7f09003d;
+        public static int pickerview_confirm=0x7f09003e;
         public static int pickerview_topLayou=0x7f09003c;
         public static int return_index_bt=0x7f090028;
         public static int right_count_tv=0x7f090009;
