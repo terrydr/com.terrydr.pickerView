@@ -165,13 +165,9 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.confirmButton:
-			Log.e(TAG, "wheelView:" + wheelView);
-			Log.e(TAG, "wheelView.getCurrentItem():" + wheelView.getCurrentItem());
-			Log.e(TAG, "arrayWheelAdapter:" + arrayWheelAdapter);
-			Log.e(TAG, "arrayWheelAdapter:" + arrayWheelAdapter.getItemsCount());
-			Log.e(TAG, "点击了确定按钮:" + arrayWheelAdapter.getItemText(wheelView.getCurrentItem()));
 			String result = String.valueOf(arrayWheelAdapter.getItemText(wheelView.getCurrentItem()));
 			callbackContext.success(result);
+			popupWindow.dismiss();
 			break;
 		case R.id.cancleButton:
 			popupWindow.dismiss();
