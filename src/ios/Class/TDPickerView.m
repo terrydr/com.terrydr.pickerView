@@ -11,6 +11,7 @@
 
 @interface TDPickerView ()<UIPickerViewDataSource,UIPickerViewDelegate>{
     NSString *_callbackId;
+    NSArray *_dataArray;
 }
 
 @end
@@ -19,6 +20,11 @@
 
 - (void)tdShowPickerView:(CDVInvokedUrlCommand*)command{
     _callbackId = command.callbackId;
+    
+    NSArray *paramArr = command.arguments;
+    NSString *jsonStr = [paramArr objectAtIndex:0];
+    _dataArray = [self arrayWithJsonString:jsonStr];
+    
     UIControl *control = [self popView];
     [control addSubview:[self tdPickerView]];
     [self.viewController presentPopupViewController:control animationType:MJPopupViewAnimationSlideBottomBottom];
@@ -50,16 +56,40 @@
 
 // returns the # of rows in each component..
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    return 2;
+    return _dataArray.count;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    return @"男";
+    NSDictionary *dic = [_dataArray objectAtIndex:row];
+    return dic[@"key"];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"男"];
+    NSDictionary *dic = [_dataArray objectAtIndex:row];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:dic[@"key"]];
     [self.commandDelegate sendPluginResult:result callbackId:_callbackId];
+}
+
+/*!
+ * @brief 把格式化的JSON格式的字符串转换成数组
+ * @param jsonString JSON格式的字符串
+ * @return 返回数组
+ */
+- (NSArray *)arrayWithJsonString:(NSString *)jsonString {
+    if (jsonString == nil) {
+        return nil;
+    }
+    
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSArray *arr = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                   options:NSJSONReadingMutableContainers
+                                                     error:&err];
+    if(err) {
+        NSLog(@"json解析失败：%@",err);
+        return [NSArray array];
+    }
+    return arr;
 }
 
 @end
