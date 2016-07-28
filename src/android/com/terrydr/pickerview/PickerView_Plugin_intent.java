@@ -40,27 +40,35 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
     private Button confirmButton;
     private Button cancleButton;
 	private CallbackContext callbackContext;
-    private String value = "[{key:'男'},{key:'女'}]";
+    private String value = "[{key:'男'},{key:'女'},{key:'女'}]";
     private ArrayWheelAdapter<String> arrayWheelAdapter;
     
 	/**
-	 * 初始化数据
+	 * 启动插件初始化方法
 	 */
 	@Override
     protected void pluginInitialize() {
         super.pluginInitialize();
+        Log.e(TAG, "tdShowPickerView1:" + callbackContext);
         initView();
     }
 	
+	/**
+	 * 初始化数据
+	 */
     private void initView(){
     	hideView = new TextView(this.cordova.getActivity());
     	hideView.setVisibility(View.GONE);
-    	this.cordova.getActivity().addContentView(hideView, null);
+    	
+//    	this.cordova.getActivity().setContentView(hideView);
 		inflater = (LayoutInflater) this.cordova.getActivity().getSystemService(this.cordova.getActivity().LAYOUT_INFLATER_SERVICE);
 		
 		popupWindowView = inflater.inflate(R.layout.pickerview_popupwindow, null);
 		pickerview_bottomLayou = (LinearLayout) popupWindowView.findViewById(R.id.pickerview_bottomLayou);
-		popupWindow = new PopupWindow(popupWindowView,LayoutParams.MATCH_PARENT, 700,true);
+		int height = this.cordova.getActivity().getWindowManager().getDefaultDisplay().getHeight();
+		int getHeight = height * 663 / 1920;
+		Log.e("MainActivity", "getHeight:" + getHeight);
+		popupWindow = new PopupWindow(popupWindowView,LayoutParams.MATCH_PARENT, getHeight,true);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		
 		confirmButton = (Button) popupWindowView.findViewById(R.id.confirmButton);
@@ -82,6 +90,7 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 		if (action.equals("tdShowPickerView")) { 
 			this.callbackContext = callbackContext;
 			Log.e(TAG, "tdShowPickerView:" + callbackContext);
+//			initView();
 			infos = args.getString(0);
 			this.showPickerView(infos);
 			return true;
@@ -95,11 +104,10 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 	 */
 	private void showPickerView(String args) {
 		if(args==null || "".equals(args)){
-			args = value;
+//			args = value;
+			return ;
 		}
 
-		// 弹出窗口显示内容视图,默认以锚定视图的左下角为起点，这里为点击按钮
-		popupWindow.showAtLocation(hideView, Gravity.BOTTOM, 0, 0);
 		JSONArray dataArray = null;
 		String[] arrayObj = null;
 		try {
@@ -114,7 +122,7 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 			e.printStackTrace();
 		}
 		wheelView = new WheelView(this.cordova.getActivity().getBaseContext());
-		ArrayWheelAdapter<String> arrayWheelAdapter = new ArrayWheelAdapter<String>(
+		arrayWheelAdapter = new ArrayWheelAdapter<String>(
 				this.cordova.getActivity(), arrayObj);
 		wheelView.setViewAdapter(arrayWheelAdapter);
 		// wheelView.setCyclic(true);
@@ -126,6 +134,9 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 						LayoutParams.MATCH_PARENT));
 		wheelView.setLayoutParams(layoutParams);
 		pickerview_bottomLayou.addView(wheelView);
+		
+		// 弹出窗口显示内容视图,默认以锚定视图的左下角为起点，这里为点击按钮
+		popupWindow.showAtLocation(hideView, Gravity.BOTTOM, 0, 0);
 	}
 
 	@Override
@@ -154,7 +165,13 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.confirmButton:
-			System.out.println("点击了确定按钮:" + arrayWheelAdapter.getItemText(wheelView.getCurrentItem()));
+			Log.e(TAG, "wheelView:" + wheelView);
+			Log.e(TAG, "wheelView.getCurrentItem():" + wheelView.getCurrentItem());
+			Log.e(TAG, "arrayWheelAdapter:" + arrayWheelAdapter);
+			Log.e(TAG, "arrayWheelAdapter:" + arrayWheelAdapter.getItemsCount());
+			Log.e(TAG, "点击了确定按钮:" + arrayWheelAdapter.getItemText(wheelView.getCurrentItem()));
+			String result = String.valueOf(arrayWheelAdapter.getItemText(wheelView.getCurrentItem()));
+			callbackContext.success(result);
 			break;
 		case R.id.cancleButton:
 			popupWindow.dismiss();
