@@ -11,6 +11,7 @@
 
 @interface TDPickerView ()<UIPickerViewDataSource,UIPickerViewDelegate>{
     NSString *_callbackId;
+    NSString *_callbackValue;
     NSArray *_dataArray;
 }
 
@@ -20,13 +21,14 @@
 
 - (void)tdShowPickerView:(CDVInvokedUrlCommand*)command{
     _callbackId = command.callbackId;
+    _callbackValue = @"";
     
     NSArray *paramArr = command.arguments;
     NSString *jsonStr = [paramArr objectAtIndex:0];
     _dataArray = [self arrayWithJsonString:jsonStr];
     
     UIControl *control = [self popView];
-    [control addSubview:[self tdPickerView]];
+    [control addSubview:[self tdPickerContentView]];
     [self.viewController presentPopupViewController:control animationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
@@ -41,12 +43,42 @@
     [self.viewController dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
-- (UIPickerView *)tdPickerView{
+- (UIView *)tdPickerContentView{
     CGRect bounds = self.viewController.view.bounds;
-    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, bounds.size.height - 100, bounds.size.width, 100)];
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, bounds.size.height - 160, bounds.size.width, 160)];
+    contentView.backgroundColor = [UIColor whiteColor];
+    
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancelBtn.frame = CGRectMake(10, 10, 40, 30);
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [cancelBtn addTarget:self action:@selector(cancelPickerClick:) forControlEvents:UIControlEventTouchUpInside];
+    [contentView addSubview:cancelBtn];
+    
+    UIButton *completeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    completeBtn.frame = CGRectMake(CGRectGetWidth(bounds)-40-10, 10, 40, 30);
+    [completeBtn setTitle:@"确认" forState:UIControlStateNormal];
+    [completeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [completeBtn addTarget:self action:@selector(completePickerClick:) forControlEvents:UIControlEventTouchUpInside];
+    [contentView addSubview:completeBtn];
+    
+    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40, bounds.size.width, 120)];
+    pickerView.userInteractionEnabled = YES;
     pickerView.backgroundColor = [UIColor whiteColor];
     pickerView.delegate = self;
-    return pickerView;
+    [contentView addSubview:pickerView];
+    
+    return contentView;
+}
+
+- (void)cancelPickerClick:(id)sender{
+    [self mjPopupViewDismissNotify];
+}
+
+- (void)completePickerClick:(id)sender{
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:_callbackId];
+    [self.commandDelegate sendPluginResult:result callbackId:_callbackId];
+    [self mjPopupViewDismissNotify];
 }
 
 // returns the number of 'columns' to display.
@@ -65,9 +97,10 @@
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    NSDictionary *dic = [_dataArray objectAtIndex:row];
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:dic[@"key"]];
-    [self.commandDelegate sendPluginResult:result callbackId:_callbackId];
+    if (_dataArray.count>row) {
+        NSDictionary *dic = [_dataArray objectAtIndex:row];
+        _callbackValue = dic[@"key"];
+    }
 }
 
 /*!
