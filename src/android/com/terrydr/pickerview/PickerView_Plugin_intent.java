@@ -5,6 +5,9 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.terrydr.pickerview.wheelview.OnWheelChangedListener;
+import com.terrydr.pickerview.wheelview.OnWheelScrollListener;
 import com.terrydr.pickerview.wheelview.WheelView;
 import com.terrydr.pickerview.wheelview.adapter.ArrayWheelAdapter;
 import com.terrydr.resource.R;
@@ -34,14 +37,13 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 	//自定义的弹出框类
     private PopupWindow popupWindow;
     private View popupWindowView;
-    private TextView hideView;
+    private TextView hideView,pickerview_confirm,pickerview_cancle;
     private WheelView wheelView;
     private LinearLayout pickerview_bottomLayou;
-    private Button confirmButton;
-    private Button cancleButton;
 	private CallbackContext callbackContext;
     private String value = "[{key:'男'},{key:'女'},{key:'女'}]";
     private ArrayWheelAdapter<String> arrayWheelAdapter;
+    private String result;
     
 	/**
 	 * 启动插件初始化方法
@@ -66,15 +68,15 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 		popupWindowView = inflater.inflate(R.layout.pickerview_popupwindow, null);
 		pickerview_bottomLayou = (LinearLayout) popupWindowView.findViewById(R.id.pickerview_bottomLayou);
 		int height = this.cordova.getActivity().getWindowManager().getDefaultDisplay().getHeight();
-		int getHeight = height * 663 / 1920;
+		int getHeight = height * 650 / 1920;
 		Log.e("MainActivity", "getHeight:" + getHeight);
 		popupWindow = new PopupWindow(popupWindowView,LayoutParams.MATCH_PARENT, getHeight,true);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		
-		confirmButton = (Button) popupWindowView.findViewById(R.id.confirmButton);
-		cancleButton = (Button) popupWindowView.findViewById(R.id.cancleButton);
-		confirmButton.setOnClickListener(this);
-		cancleButton.setOnClickListener(this);
+		pickerview_confirm = (TextView) popupWindowView.findViewById(R.id.pickerview_confirm);
+		pickerview_cancle = (TextView) popupWindowView.findViewById(R.id.pickerview_cancle);
+		pickerview_confirm.setOnClickListener(this);
+		pickerview_cancle.setOnClickListener(this);
 
 		//设置PopupWindow的弹出和消失效果
 		popupWindow.setAnimationStyle(R.style.pickerview_popupAnimation);
@@ -125,8 +127,9 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 		arrayWheelAdapter = new ArrayWheelAdapter<String>(
 				this.cordova.getActivity(), arrayObj);
 		wheelView.setViewAdapter(arrayWheelAdapter);
+//		wheelView.addChangingListener(onChangedLsitener);
+		wheelView.addScrollingListener(scrollListener);
 		// wheelView.setCyclic(true);
-		// wheelView.addScrollingListener(scrollListener);
 		// wheelView.setVisibility(View.GONE);
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -164,17 +167,50 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.confirmButton:
-			String result = String.valueOf(arrayWheelAdapter.getItemText(wheelView.getCurrentItem()));
+		case R.id.pickerview_confirm:
+//			String result = String.valueOf(arrayWheelAdapter.getItemText(wheelView.getCurrentItem()));
+			if(result==null){
+				result = String.valueOf(arrayWheelAdapter.getItemText(wheelView.getCurrentItem()));
+			}
 			callbackContext.success(result);
+			Log.e(TAG, "result:" + result);
 			popupWindow.dismiss();
 			break;
-		case R.id.cancleButton:
+		case R.id.pickerview_cancle:
 			popupWindow.dismiss();
 			break;
 		default:
 			break;
 		}
-		
 	}
+	
+	/**
+	 * 内容改变事件
+	 */
+	private OnWheelChangedListener onChangedLsitener = new OnWheelChangedListener() {
+		
+		@Override
+		public void onChanged(WheelView wheel, int oldValue, int newValue) {
+			result = String.valueOf(arrayWheelAdapter.getItemText(wheel.getCurrentItem()));
+//			callbackContext.success(result);
+//			Log.e(TAG, "onChangedLsitenerResult:" + result);
+		}
+	};
+	
+	/**
+	 * 添加滚动事件，调用adapter中的显示文字
+	 */
+	private OnWheelScrollListener scrollListener = new OnWheelScrollListener() {
+		@Override
+		public void onScrollingStarted(WheelView wheel) {
+
+		}
+
+		@Override
+		public void onScrollingFinished(WheelView wheel) {
+			result = String.valueOf(arrayWheelAdapter.getItemText(wheel.getCurrentItem()));
+//			callbackContext.success(result);
+			Log.e(TAG, "scrollListenerResult:" + result);
+		}
+	};
 }

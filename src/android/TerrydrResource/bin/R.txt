@@ -19,7 +19,9 @@ int color line_bg 0x7f050005
 int color main_menu_bg 0x7f050000
 int color ms_font_color_gray 0x7f050014
 int color ms_font_color_white 0x7f050015
+int color pickerview_line_color 0x7f050018
 int color pickerview_province_line_border 0x7f050016
+int color pickerview_text_color 0x7f050017
 int color primary_title_text_color 0x7f05000e
 int color text_blue 0x7f05000b
 int color text_color 0x7f050009
@@ -113,11 +115,9 @@ int id camera_header_bar 0x7f090002
 int id cance_back_iv 0x7f090013
 int id cance_bt 0x7f090015
 int id cancel_btn 0x7f090034
-int id cancleButton 0x7f09003d
 int id checkbox 0x7f09003a
 int id commit_bt 0x7f09000b
 int id complete_bt 0x7f09002a
-int id confirmButton 0x7f09003e
 int id confirm_btn 0x7f090038
 int id container 0x7f090000
 int id eye_left_select_count_tv 0x7f090021
@@ -151,6 +151,8 @@ int id ms_image_count_tv 0x7f090003
 int id neutral_btn 0x7f090036
 int id photos_iv 0x7f090026
 int id pickerview_bottomLayou 0x7f09003f
+int id pickerview_cancle 0x7f09003d
+int id pickerview_confirm 0x7f09003e
 int id pickerview_topLayou 0x7f09003c
 int id return_index_bt 0x7f090028
 int id right_count_tv 0x7f090009

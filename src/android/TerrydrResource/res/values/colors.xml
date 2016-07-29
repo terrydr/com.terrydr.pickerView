@@ -28,4 +28,6 @@
     
     <!-- PickerView color -->
     <color name="pickerview_province_line_border">#D0D0D0</color>
+    <color name="pickerview_text_color">#0089f1</color>
+    <color name="pickerview_line_color">#d4d4d4</color>
 </resources>
