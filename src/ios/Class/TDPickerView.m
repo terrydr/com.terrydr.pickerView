@@ -75,7 +75,7 @@
 }
 
 - (void)completePickerClick:(id)sender{
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:_callbackId];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:_callbackValue];
     [self.commandDelegate sendPluginResult:result callbackId:_callbackId];
     [self mjPopupViewDismissNotify];
 }
