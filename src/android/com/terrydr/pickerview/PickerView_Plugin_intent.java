@@ -173,6 +173,7 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 			callbackContext.success(result);
 			Log.i(TAG, "result:" + result);
 			popupWindow.dismiss();
+			result = null;
 //			this.cordova.getActivity().finish();
 			break;
 		case R.id.pickerview_cancle:
