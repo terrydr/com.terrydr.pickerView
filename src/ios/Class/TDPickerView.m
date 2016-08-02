@@ -24,8 +24,7 @@
     _callbackValue = @"";
     
     NSArray *paramArr = command.arguments;
-    NSString *jsonStr = [paramArr objectAtIndex:0];
-    _dataArray = [self arrayWithJsonString:jsonStr];
+    _dataArray = [paramArr objectAtIndex:0];
     
     UIControl *control = [self popView];
     [control addSubview:[self tdPickerContentView]];
