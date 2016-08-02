@@ -66,11 +66,13 @@ containing a value of this type.
         /** 灰色 
          */
         public static int ms_font_color_white=0x7f050015;
-        public static int pickerview_line_color=0x7f050018;
+        public static int pickerview_color_top=0x7f05001a;
+        public static int pickerview_color_white=0x7f050017;
+        public static int pickerview_line_color=0x7f050019;
         /**  PickerView color 
          */
         public static int pickerview_province_line_border=0x7f050016;
-        public static int pickerview_text_color=0x7f050017;
+        public static int pickerview_text_color=0x7f050018;
         /** dialog中按钮字体颜色 
          */
         public static int primary_title_text_color=0x7f05000e;

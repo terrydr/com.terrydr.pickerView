@@ -1,15 +1,15 @@
 package com.terrydr.pickerview;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.terrydr.pickerview.wheelview.OnWheelChangedListener;
-import com.terrydr.pickerview.wheelview.OnWheelScrollListener;
-import com.terrydr.pickerview.wheelview.WheelView;
-import com.terrydr.pickerview.wheelview.adapter.ArrayWheelAdapter;
+import com.terrydr.pickerview.loopview.LoopView;
+import com.terrydr.pickerview.loopview.OnItemSelectedListener;
 import com.terrydr.resource.R;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -38,12 +37,12 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
     private PopupWindow popupWindow;
     private View popupWindowView;
     private TextView hideView,pickerview_confirm,pickerview_cancle;
-    private WheelView wheelView;
     private LinearLayout pickerview_bottomLayou;
 	private CallbackContext callbackContext;
     private String value = "[{key:'男'},{key:'女'},{key:'女'}]";
-    private ArrayWheelAdapter<String> arrayWheelAdapter;
     private String result;
+    private LoopView loopView;
+    private List<String> list = new ArrayList<String>();
     
 	/**
 	 * 启动插件初始化方法
@@ -68,7 +67,7 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 		popupWindowView = inflater.inflate(R.layout.pickerview_popupwindow, null);
 		pickerview_bottomLayou = (LinearLayout) popupWindowView.findViewById(R.id.pickerview_bottomLayou);
 		int height = this.cordova.getActivity().getWindowManager().getDefaultDisplay().getHeight();
-		int getHeight = height * 650 / 1920;
+		int getHeight = height * 685 / 1920;
 		Log.i("MainActivity", "getHeight:" + getHeight);
 		popupWindow = new PopupWindow(popupWindowView,LayoutParams.MATCH_PARENT, getHeight,true);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -122,20 +121,29 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		wheelView = new WheelView(this.cordova.getActivity().getBaseContext());
-		arrayWheelAdapter = new ArrayWheelAdapter<String>(
-				this.cordova.getActivity(), arrayObj);
-		wheelView.setViewAdapter(arrayWheelAdapter);
-//		wheelView.addChangingListener(onChangedLsitener);
-		wheelView.addScrollingListener(scrollListener);
-		// wheelView.setCyclic(true);
-		// wheelView.setVisibility(View.GONE);
-
+		
+        loopView = new LoopView(this.cordova.getActivity());
+        //设置是否循环播放
+        loopView.setNotLoop();
+        //滚动监听
+        loopView.setListener(onItemSelectedListener);
+        loopView.setPadding(0, -10, 0, -10);
+        
+        list = Arrays.asList(arrayObj);
+        if(list.isEmpty()){
+        	return ;
+        }
+        result = list.get(0);
+        //设置原始数据
+        loopView.setItems(list);
+        //设置初始位置
+//        loopView.setInitPosition(5);
+        //设置字体大小
+        loopView.setTextSize(20);
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-				new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT,
-						LayoutParams.MATCH_PARENT));
-		wheelView.setLayoutParams(layoutParams);
-		pickerview_bottomLayou.addView(wheelView);
+		new ViewGroup.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		loopView.setLayoutParams(layoutParams);
+		pickerview_bottomLayou.addView(loopView);
 		
 		// 弹出窗口显示内容视图,默认以锚定视图的左下角为起点，这里为点击按钮
 		popupWindow.showAtLocation(hideView, Gravity.BOTTOM, 0, 0);
@@ -167,14 +175,9 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.pickerview_confirm:
-			if(result==null){
-				result = String.valueOf(arrayWheelAdapter.getItemText(wheelView.getCurrentItem()));
-			}
 			callbackContext.success(result);
 			Log.i(TAG, "result:" + result);
 			popupWindow.dismiss();
-			result = null;
-//			this.cordova.getActivity().finish();
 			break;
 		case R.id.pickerview_cancle:
 			popupWindow.dismiss();
@@ -185,30 +188,13 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 	}
 	
 	/**
-	 * 内容改变事件
+	 * 滚轮改选择事件
 	 */
-	private OnWheelChangedListener onChangedLsitener = new OnWheelChangedListener() {
-		
-		@Override
-		public void onChanged(WheelView wheel, int oldValue, int newValue) {
-			result = String.valueOf(arrayWheelAdapter.getItemText(wheel.getCurrentItem()));
-			Log.i(TAG, "onChangedLsitenerResult:" + result);
-		}
-	};
+	private OnItemSelectedListener onItemSelectedListener = new OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(int index) {
+            result = loopView.getSelectedItemText(index);
+        }
+    };
 	
-	/**
-	 * 添加滚动事件，调用adapter中的显示文字
-	 */
-	private OnWheelScrollListener scrollListener = new OnWheelScrollListener() {
-		@Override
-		public void onScrollingStarted(WheelView wheel) {
-
-		}
-
-		@Override
-		public void onScrollingFinished(WheelView wheel) {
-			result = String.valueOf(arrayWheelAdapter.getItemText(wheel.getCurrentItem()));
-			Log.i(TAG, "scrollListenerResult:" + result);
-		}
-	};
 }
