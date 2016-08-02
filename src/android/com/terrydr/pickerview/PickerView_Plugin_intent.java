@@ -52,7 +52,7 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
     protected void pluginInitialize() {
         super.pluginInitialize();
         Log.e(TAG, "tdShowPickerView1:" + callbackContext);
-        initView();
+//        initView();
     }
 	
 	/**
@@ -69,7 +69,7 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 		pickerview_bottomLayou = (LinearLayout) popupWindowView.findViewById(R.id.pickerview_bottomLayou);
 		int height = this.cordova.getActivity().getWindowManager().getDefaultDisplay().getHeight();
 		int getHeight = height * 650 / 1920;
-		Log.e("MainActivity", "getHeight:" + getHeight);
+		Log.i("MainActivity", "getHeight:" + getHeight);
 		popupWindow = new PopupWindow(popupWindowView,LayoutParams.MATCH_PARENT, getHeight,true);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		
@@ -92,7 +92,7 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 		if (action.equals("tdShowPickerView")) { 
 			this.callbackContext = callbackContext;
 			Log.e(TAG, "tdShowPickerView:" + callbackContext);
-//			initView();
+			initView();
 			infos = args.getString(0);
 			this.showPickerView(infos);
 			return true;
@@ -106,7 +106,6 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 	 */
 	private void showPickerView(String args) {
 		if(args==null || "".equals(args)){
-//			args = value;
 			return ;
 		}
 
@@ -168,13 +167,14 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.pickerview_confirm:
-//			String result = String.valueOf(arrayWheelAdapter.getItemText(wheelView.getCurrentItem()));
 			if(result==null){
 				result = String.valueOf(arrayWheelAdapter.getItemText(wheelView.getCurrentItem()));
 			}
 			callbackContext.success(result);
-			Log.e(TAG, "result:" + result);
+			Log.i(TAG, "result:" + result);
 			popupWindow.dismiss();
+			result = null;
+//			this.cordova.getActivity().finish();
 			break;
 		case R.id.pickerview_cancle:
 			popupWindow.dismiss();
@@ -192,8 +192,7 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 		@Override
 		public void onChanged(WheelView wheel, int oldValue, int newValue) {
 			result = String.valueOf(arrayWheelAdapter.getItemText(wheel.getCurrentItem()));
-//			callbackContext.success(result);
-//			Log.e(TAG, "onChangedLsitenerResult:" + result);
+			Log.i(TAG, "onChangedLsitenerResult:" + result);
 		}
 	};
 	
@@ -209,8 +208,7 @@ public class PickerView_Plugin_intent extends CordovaPlugin implements OnClickLi
 		@Override
 		public void onScrollingFinished(WheelView wheel) {
 			result = String.valueOf(arrayWheelAdapter.getItemText(wheel.getCurrentItem()));
-//			callbackContext.success(result);
-			Log.e(TAG, "scrollListenerResult:" + result);
+			Log.i(TAG, "scrollListenerResult:" + result);
 		}
 	};
 }
